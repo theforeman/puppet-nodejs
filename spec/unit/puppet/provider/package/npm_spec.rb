@@ -65,4 +65,11 @@ describe Puppet::Type.type(:package).provider(:npm) do
       expect(@provider.class.instances).to eq([])
     end
   end
+
+  describe "#latest" do
+    it "filters npm registry logging" do
+      provider.expects(:npm).with('view', 'express', 'version').returns("npm http GET https://registry.npmjs.org/express\nnpm http 200 https://registry.npmjs.org/express\n2.0.0")
+      expect(provider.latest).to eq('2.0.0')
+    end
+  end
 end
